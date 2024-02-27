@@ -1,5 +1,7 @@
 import flatpickr from 'flatpickr';
+
 import 'flatpickr/dist/flatpickr.min.css';
+
 import Notiflix from 'notiflix';
 
 let interval;
@@ -23,8 +25,8 @@ flatpickr('#datetime-picker', {
 });
 
 document.querySelector('[data-start]').addEventListener('click', () => {
-  const selectedDataValue = document.getElementById('datatime-picker').value;
-  const selectedDate = flatpickr.parseDate(selectedDataValue, 'Y-m-d H:i');
+  const selectedDateValue = document.getElementById('datetime-picker').value;
+  const selectedDate = flatpickr.parseDate(selectedDateValue, 'Y-m-d H:i');
 
   if (!selectedDate) {
     alert('Please select a valid date and time');
@@ -37,10 +39,9 @@ document.querySelector('[data-start]').addEventListener('click', () => {
     const difference = selectedDate - now;
     if (difference <= 0) {
       clearInterval(interval);
-      Notiflix.Notify.success('Countdown finished');
+      Notiflix.Notify.success('Countdown finished!');
       return;
     }
-
     const { days, hours, minutes, seconds } = convertMs(difference);
     document.querySelector('[data-days]').textContent = addLeadingZero(days);
     document.querySelector('[data-hours]').textContent = addLeadingZero(hours);
@@ -59,9 +60,10 @@ function convertMs(ms) {
 
   const days = Math.floor(ms / day);
   const hours = Math.floor((ms % day) / hour);
-  const minutes = Math.floor(((ms % day) % hour) / hour);
+  const minutes = Math.floor(((ms % day) % hour) / minute);
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
-  return { days, hours, minute, seconds };
+
+  return { days, hours, minutes, seconds };
 }
 
 function addLeadingZero(value) {
